@@ -3,34 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
-use App\Models\Career; // Necesario para el select de carreras
+use App\Models\Career;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    /**
-     * Muestra la lista de estudiantes.
-     */
     public function index()
     {
-        // Cargamos los estudiantes y su carrera relacionada
         $students = Student::with('career')->get();
         return view('students.index', compact('students'));
     }
-
-    /**
-     * Muestra el formulario para crear un estudiante.
-     */
     public function create()
     {
-        // Enviamos las carreras para el menú desplegable
         $careers = Career::all();
         return view('students.create', compact('careers'));
     }
 
-    /**
-     * Guarda el estudiante en la base de datos.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -46,19 +34,11 @@ class StudentController extends Controller
 
         return redirect()->route('students.index')->with('success', 'Estudiante registrado con éxito.');
     }
-
-    /**
-     * Muestra el formulario de edición.
-     */
     public function edit(Student $student)
     {
         $careers = Career::all();
         return view('students.edit', compact('student', 'careers'));
     }
-
-    /**
-     * Actualiza la información en la base de datos.
-     */
     public function update(Request $request, Student $student)
     {
         $validated = $request->validate([
@@ -74,10 +54,6 @@ class StudentController extends Controller
 
         return redirect()->route('students.index')->with('success', 'Información actualizada.');
     }
-
-    /**
-     * Elimina al estudiante.
-     */
     public function destroy(Student $student)
     {
         $student->delete();
