@@ -1,54 +1,53 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
-    <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold text-gray-800">Gestión de Carreras</h2>
-        <a href="{{ route('students.index') }}" class="text-blue-500 hover:underline">⬅ Volver a Estudiantes</a>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="lg:col-span-1">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+            <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                <i class="fas fa-folder-plus text-indigo-500"></i> Nueva Carrera
+            </h3>
+            <form action="{{ route('careers.store') }}" method="POST">
+                @csrf
+                <div class="mb-4">
+                    <label class="block text-xs font-bold text-slate-500 mb-1 uppercase">Nombre de la Carrera</label>
+                    <input type="text" name="nombre" class="w-full border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-indigo-500 outline-none transition" placeholder="Ej. Ing. Civil" required>
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition shadow-lg shadow-indigo-100">
+                    Registrar Carrera
+                </button>
+            </form>
+        </div>
     </div>
 
-    <div class="bg-gray-50 p-4 rounded-md mb-6 border">
-        <h3 class="text-sm font-semibold mb-2 uppercase text-gray-600">Nueva Carrera</h3>
-        <form action="{{ route('careers.store') }}" method="POST" class="flex gap-2">
-            @csrf
-            <input type="text" name="nombre" placeholder="Ej. Ingeniería en Sistemas" 
-                   class="flex-1 border p-2 rounded focus:ring-2 focus:ring-blue-500 outline-none" required>
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                Agregar
-            </button>
-        </form>
+    <div class="lg:col-span-2">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-slate-50 border-b border-slate-100">
+                    <tr>
+                        <th class="p-4 font-bold text-slate-600 uppercase text-xs">ID</th>
+                        <th class="p-4 font-bold text-slate-600 uppercase text-xs">Carrera Académica</th>
+                        <th class="p-4 text-center font-bold text-slate-600 uppercase text-xs">Acción</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    @foreach($careers as $career)
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-4 font-mono text-slate-400">#{{ $career->id }}</td>
+                        <td class="p-4 font-bold text-slate-700">{{ $career->nombre }}</td>
+                        <td class="p-4 text-center">
+                            <form action="{{ route('careers.destroy', $career) }}" method="POST" onsubmit="return confirm('¿Eliminar carrera?')">
+                                @csrf @method('DELETE')
+                                <button class="text-rose-400 hover:text-rose-600 transition">
+                                    <i class="fas fa-times-circle text-lg"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <table class="w-full text-left border-collapse">
-        <thead>
-            <tr class="border-b bg-gray-100">
-                <th class="p-3">ID</th>
-                <th class="p-3">Nombre de la Carrera</th>
-                <th class="p-3 text-center">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($careers as $career)
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="p-3 text-gray-500">{{ $career->id }}</td>
-                    <td class="p-3 font-medium">{{ $career->nombre }}</td>
-                    <td class="p-3 text-center">
-                        <form action="{{ route('careers.destroy', $career) }}" method="POST" 
-                              onsubmit="return confirm('¿Eliminar esta carrera? También se borrarán los alumnos asociados.')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-500 hover:text-red-700 font-bold">
-                                Eliminar
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="3" class="p-4 text-center text-gray-500 italic">No hay carreras registradas.</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
 </div>
 @endsection
