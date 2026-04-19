@@ -1,0 +1,8 @@
+Datos del estudiante:
+Noé Asael Quintero Águila 
+23151250
+
+Descripcion del proyecto:
+Este proyecto es una aplicación web que desarrollé usando Laravel 12 para aprender a gestionar bases de datos relacionales. El objetivo fue crear un sistema de control escolar donde puedo registrar, ver, editar y eliminar información de alumnos. Lo más interesante fue aprender a conectar las tablas, ya que cada estudiante no solo tiene sus datos básicos como nombre o matrícula, sino que está vinculado a una Carrera específica mediante una llave foránea. Para lograr esto, utilicé migraciones para definir la estructura de las tablas y Eloquent para que el código entienda que un alumno "pertenece" a una carrera, lo que facilita mucho mostrar la información de forma ordenada.
+
+En la parte visual, utilicé el motor de plantillas Blade y Tailwind CSS para que el sitio se vea limpio y sea fácil de usar. Aprendí a usar un Layout Base, que me permitió crear una estructura única (con el menú y mi nombre) que se repite en todas las vistas, evitando copiar y pegar el mismo código muchas veces. También implementé validaciones en los controladores para asegurar que no se repitan las matrículas y que todos los campos se llenen correctamente. Ha sido un reto entender cómo fluye la información desde la ruta hasta la vista, pero el resultado es un CRUD funcional que cumple con todos los requisitos técnicos pedidos.
